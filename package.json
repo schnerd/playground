@@ -1,0 +1,114 @@
+{
+  "name": "react-vis-sankey",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "Visualization Team <visualization@uber.com>",
+  "description": "Sankey chart type for react-vis library",
+  "main": "dist",
+  "module": "es",
+  "jsnext:main": "es",
+  "files": [
+    "dist",
+    "es"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uber/react-vis-sankey.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uber/react-vis-sankey/issues/new",
+    "email": "visualization@uber.com"
+  },
+  "scripts": {
+    "clean": "rm -rf dist es bundle.* index.html && mkdir dist es",
+    "start": "(cd showcase && command -v yarn >/dev/null && yarn && npm start || npm install && npm start)",
+    "build:browser": "browserify src/index.js -t [ babelify ] --standalone reactVis | uglifyjs > dist/dist.min.js",
+    "build": "npm run clean && babel src -d dist --copy-files && BABEL_ENV=es babel src -d es --copy-files && node-sass src/main.scss dist/style.css --output-style compressed && npm run build:browser",
+    "lint": "eslint src tests showcase docs --ignore-pattern node_modules --ignore-pattern bundle.js",
+    "test": "node --inspect node_modules/.bin/babel-node tests/index.js",
+    "full-test": "npm run lint && npm run cover",
+    "cover": "nyc --reporter=text --reporter=html --reporter=lcov npm test"
+  },
+  "dependencies": {
+    "d3-sankey": "^0.7.1"
+  },
+  "devDependencies": {
+    "babel-cli": "6.18.0",
+    "babel-eslint": "^7.1.1",
+    "babel-preset-es2015": "6.18.0",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-register": "^6.18.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.3.0",
+    "enzyme": "^2.8.2",
+    "eslint": "^3.13.1",
+    "eslint-config-uber-es2015": "^3.0.1",
+    "eslint-config-uber-jsx": "^3.0.1",
+    "eslint-plugin-babel": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
+    "jsdom": "^9.9.1",
+    "nyc": "^10.0.0",
+    "prop-types": "^15.6.1",
+    "react": "^15.5.4",
+    "react-addons-test-utils": ">=15.4.2",
+    "react-dom": "^15.5.4",
+    "react-test-renderer": "^15.5.4",
+    "react-vis": "^1.9.2",
+    "sinon": "^4.5.0",
+    "tape": "^4.6.3",
+    "uglify-js": "^2.8.22"
+  },
+  "peerDependencies": {
+    "prop-types": "15.x",
+    "react": "0.14.x - 16.x",
+    "react-vis": ">= 2.x"
+  },
+  "keywords": [
+    "d3",
+    "react",
+    "visualization",
+    "sankey"
+  ],
+  "babel": {
+    "env": {
+      "production": {
+        "presets": [
+          "es2015",
+          "stage-0",
+          "react"
+        ]
+      },
+      "development": {
+        "presets": [
+          "es2015",
+          "stage-0",
+          "react"
+        ]
+      },
+      "es": {
+        "presets": [
+          [
+            "es2015",
+            {
+              "modules": false
+            }
+          ],
+          "stage-0",
+          "react"
+        ]
+      }
+    }
+  },
+  "nyc": {
+    "exclude": [
+      "tests/**/*.js",
+      "src/utils/react-utils.js"
+    ]
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">=3.0"
+  }
+}
